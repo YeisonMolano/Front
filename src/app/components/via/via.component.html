@@ -1,0 +1,147 @@
+<app-menu></app-menu>
+<div class="container">
+  <div class="p-grid p-text-center">
+    <div class="p-col-6 p-md-6" style="text-align: center; padding-left: 10px">
+      <h3>Vias</h3>
+    </div>
+    <div class="p-col-6 p-md-6" style="text-align: center; margin: auto">
+      <button pButton pRipple type="button" label="Crear via" class="p-button-raised p-button-rounded"
+        (click)="abrir()"></button>
+    </div>
+  </div>
+  <p-table [value]="vias" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Identificador</th>
+        <th>Tipo</th>
+        <th>Tipo de via</th>
+        <th>Numero</th>
+        <th>Nivel de congestion</th>
+        <th>Editar</th>
+        <th>Remover</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-via>
+      <tr>
+        <td>{{ via.identificador }}</td>
+        <td>{{ via.tipo }}</td>
+        <td>{{ via.tipoVia }}</td>
+        <td>{{ via.numero }}</td>
+        <td>{{ via.nivel }}</td>
+        <td><button pButton pRipple type="button" icon="pi pi-pencil"
+            class="p-button-rounded p-button-warning p-button-outlined" (click)="abrirModificar(via)"></button></td>
+        <td><button pButton pRipple type="button" icon="pi pi-times"
+            class="p-button-rounded p-button-danger p-button-outlined" (click)="borrarVia(via.identificador)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">No existen registros.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog [(visible)]="dialogo" [style]="{ width: '70vw' }" header="Crear via" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <br />
+    <form [formGroup]="formGroup">
+      <div class="p-grid" style="padding-bottom: 1rem">
+        <div class="p-col-12 p-md-6" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input type="text" class="form-control" maxlength="30" formControlName="tipo" pInputText />
+            <label for="float-input"><i id="in" class="fas fa-user-tag"></i>Tipo</label>
+          </span>
+        </div>
+      </div>
+      <div class="p-grid" style="padding-bottom: 1rem">
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input type="text" class="form-control" maxlength="30" formControlName="tipoVia" pInputText />
+            <label for="float-input"><i id="in" class="far fa-address-card"></i>Calle o Carrera</label>
+          </span>
+        </div>
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input type="text" class="form-control" maxlength="30" formControlName="numero" pInputText />
+            <label for="float-input"><i id="in" class="far fa-address-card"></i>Numero</label>
+          </span>
+        </div>
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input type="text" class="form-control" maxlength="30" formControlName="nivel" pInputText />
+            <label for="float-input"><i id="in" class="far fa-address-card"></i>Nivel de congestion</label>
+          </span>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="spinner">
+      <button id="footer" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+        (click)="cerrar()"></button>
+      <button id="footer" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"
+        (click)="crearVia()"></button>
+    </div>
+  </ng-template>
+</p-dialog>
+<app-footer></app-footer>
+<p-dialog [(visible)]="dialogoModify" [style]="{ width: '70vw' }" header="Modificar via" [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <br />
+    <form [formGroup]="formGroup">
+      <div class="p-grid" style="padding-bottom: 1rem">
+        <div class="p-col-12 p-md-6" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input type="text" class="form-control" maxlength="30" formControlName="tipo" pInputText />
+            <label for="float-input"><i id="in" class="fas fa-user-tag"></i>Tipo</label>
+          </span>
+        </div>
+      </div>
+      <div class="p-grid" style="padding-bottom: 1rem">
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input type="text" class="form-control" maxlength="30" formControlName="tipoVia" pInputText />
+            <label for="float-input"><i id="in" class="far fa-address-card"></i>Calle o Carrera</label>
+          </span>
+        </div>
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input type="text" class="form-control" maxlength="30" formControlName="numero" pInputText />
+            <label for="float-input"><i id="in" class="far fa-address-card"></i>Numero</label>
+          </span>
+        </div>
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input type="text" class="form-control" maxlength="30" formControlName="nivel" pInputText />
+            <label for="float-input"><i id="in" class="far fa-address-card"></i>Nivel</label>
+          </span>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="spinner">
+      <button id="footer" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+        (click)="cerrarModificar()"></button>
+      <button id="footer" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"
+        (click)="modificarVia()"></button>
+    </div>
+  </ng-template>
+</p-dialog>
+<p-dialog [(visible)]="dialogoError" [style]="{ width: '70vw' }" header="Error al crear la via" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div>
+        <p>El nivel de congestion debe oscilar entre 0 a 100</p>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <div class="spinner">
+        <button id="footer" pButton pRipple label="Aceptar" icon="pi pi-check" class="p-button-text"
+          (click)="cerrarError()"></button>
+      </div>
+    </ng-template>
+  </p-dialog>

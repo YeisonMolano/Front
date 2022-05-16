@@ -1,0 +1,101 @@
+<app-menu></app-menu>
+<div class="container">
+  <p>Crear asignaciones de via</p>
+  <div class="p-grid">
+    <form [formGroup]="formularioAgente">
+      <div class="p-col-12 p-md-6">
+        <p-dropdown [options]="agentes" formControlName="agente" optionLabel="nombreAgente" placeholder="Agente">
+          <ng-template let-country pTemplate="item">
+            <div class="country-item">
+              <div>{{country.nombreAgente}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </form>
+    <form [formGroup]="formularioVia">
+      <div class="p-col-12 p-md-6">
+        <p-dropdown [options]="vias" optionLabel="tipo" formControlName="via" placeholder="Via">
+          <ng-template let-country pTemplate="item">
+            <div class="country-item">
+              <div>{{country.tipo}} {{country.tipoVia}} {{country.numero}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </form>
+    <div class="p-col-12 p-md-6" class="p-col-12 p-md-6"><button pButton type="button" label="Crear asignacion"
+        class="p-button-info" (click)="crearAsignacion()"></button>
+    </div>
+  </div>
+  <p-dialog [(visible)]="dialogo" [style]="{ width: '70vw' }" header="Error al hacer la asignacion" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <div>
+        <p>No se puede crear una asignacion a una ruta con nivel de congestion menor a 30</p>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <div class="spinner">
+        <button id="footer" pButton pRipple label="Aceptar" icon="pi pi-check" class="p-button-text"
+          (click)="cerrar()"></button>
+      </div>
+    </ng-template>
+  </p-dialog>
+  <hr>
+  <div class="p-grid">
+    <form [formGroup]="formularioAgente">
+      <div class="p-col-12 p-md-6">
+        <p-dropdown [options]="agentes" formControlName="agente" optionLabel="nombreAgente" placeholder="Agente">
+          <ng-template let-country pTemplate="item">
+            <div class="country-item">
+              <div>{{country.nombreAgente}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </form>
+    <div class="p-col-12 p-md-6"><button pButton label="Buscar por agente" type="button" class="p-button-info" (click)="getPorAgente()"></button></div>
+  </div>
+  <div class="p-grid">
+    <form [formGroup]="formularioVia">
+      <div class="p-col-12 p-md-6">
+        <p-dropdown [options]="vias" formControlName="via" optionLabel="tipo" placeholder="Via">
+          <ng-template let-country pTemplate="item">
+            <div class="country-item">
+              <div>{{country.tipo}} {{country.tipoVia}} {{country.numero}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </form>
+    <div class="p-col-12 p-md-6">
+      <button pButton type="button" label="Buscar por via" class="p-button-info" (click)="getPorVia()"></button>
+    </div>
+  </div>
+  <div id="tabla">
+    <p-table [value]="asignaciones" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Agente</th>
+          <th>Via</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-asignacion>
+        <tr>
+          <td>{{ asignacion.idAsignacion }}</td>
+          <td>{{ asignacion.agente.nombreAgente }}</td>
+          <td >{{asignacion.via.tipo}} {{asignacion.via.tipoVia}} {{asignacion.via.numero}}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4">No existen registros.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<app-footer></app-footer>

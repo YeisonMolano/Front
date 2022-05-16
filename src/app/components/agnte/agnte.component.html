@@ -1,0 +1,247 @@
+<app-menu></app-menu>
+<div class="container">
+  <div class="p-grid p-text-center">
+    <div class="p-col-6 p-md-6" style="text-align: center; padding-left: 10px">
+      <h3>Agentes</h3>
+    </div>
+    <div class="p-col-6 p-md-6" style="text-align: center; margin: auto">
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Crear agente"
+        class="p-button-raised p-button-rounded"
+        (click)="open()"
+      ></button>
+    </div>
+  </div>
+  <p-table [value]="agentes" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Codigo</th>
+        <th>Codigo secretaria</th>
+        <th>Años de experiencia</th>
+        <th>Editar</th>
+        <th>Remover</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-agente>
+      <tr>
+        <td>{{ agente.idAgente }}</td>
+        <td>{{ agente.nombreAgente }}</td>
+        <td>{{ agente.codigo }}</td>
+        <td>{{ agente.codigoSecretaria }}</td>
+        <td>{{ getDate(agente.fechaInicio)}}</td>
+        <td><button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-outlined" (click)="openModify(agente)"></button></td>
+        <td><button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="eliminar(agente.idAgente)"></button></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">No existen registros.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [(visible)]="dialog"
+  [style]="{ width: '70vw' }"
+  header="Crear agente"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <br />
+    <form [formGroup]="formGroup">
+      <div class="p-grid" style="padding-bottom: 1rem">
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input
+              type="text"
+              class="form-control"
+              maxlength="30"
+              formControlName="nombreAgente"
+              pInputText
+            />
+            <label for="float-input"
+              ><i id="in" class="fas fa-tag"></i>Nombre agente</label
+            >
+          </span>
+        </div>
+        <div class="p-col-12 p-md-6" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input
+              type="text"
+              class="form-control"
+              maxlength="30"
+              formControlName="codigo"
+              pInputText
+            />
+            <label for="float-input"
+              ><i id="in" class="fas fa-user-tag"></i>Codigo</label
+            >
+          </span>
+        </div>
+      </div>
+      <div class="p-grid" style="padding-bottom: 1rem">
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input
+              type="text"
+              class="form-control"
+              maxlength="30"
+              formControlName="codigoSecretaria"
+              pInputText
+            />
+            <label for="float-input"
+              ><i id="in" class="far fa-address-card"></i>Codigo
+              Secretaria</label
+            >
+          </span>
+        </div>
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <p-calendar
+              appendTo="body"
+              class="form-control"
+              formControlName="fechaInicio"
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              yearRange="1950:2030"
+              inputId="navigators"
+            >
+            </p-calendar>
+            <label for="float-input"
+              ><i class="far fa-calendar-alt"></i>Fecha de inicio</label
+            >
+          </span>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="spinner">
+      <button
+        id="footer"
+        pButton
+        pRipple
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="cerrar()"
+      ></button>
+      <button
+        id="footer"
+        pButton
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="guardar()"
+      ></button>
+    </div>
+  </ng-template>
+</p-dialog>
+<app-footer></app-footer>
+<p-dialog
+  [(visible)]="dialogModify"
+  [style]="{ width: '70vw' }"
+  header="Modificar agente"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <br />
+    <form [formGroup]="formGroup">
+      <div class="p-grid" style="padding-bottom: 1rem">
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input
+              type="text"
+              class="form-control"
+              maxlength="30"
+              formControlName="nombreAgente"
+              pInputText
+            />
+            <label for="float-input"
+              ><i id="in" class="fas fa-tag"></i>Nombre agente</label
+            >
+          </span>
+        </div>
+        <div class="p-col-12 p-md-6" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input
+              type="text"
+              class="form-control"
+              maxlength="30"
+              formControlName="codigo"
+              pInputText
+            />
+            <label for="float-input"
+              ><i id="in" class="fas fa-user-tag"></i>Codigo</label
+            >
+          </span>
+        </div>
+      </div>
+      <div class="p-grid" style="padding-bottom: 1rem">
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <input
+              type="text"
+              class="form-control"
+              maxlength="30"
+              formControlName="codigoSecretaria"
+              pInputText
+            />
+            <label for="float-input"
+              ><i id="in" class="far fa-address-card"></i>Codigo
+              Secretaria</label
+            >
+          </span>
+        </div>
+        <div class="p-col-12 p-md-6 p-text-center" style="padding-bottom: 1rem">
+          <span class="p-float-label">
+            <p-calendar
+              appendTo="body"
+              class="form-control"
+              formControlName="fechaInicio"
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              yearRange="1950:2030"
+              inputId="navigators"
+            >
+            </p-calendar>
+            <label for="float-input"
+              ><i class="far fa-calendar-alt"></i>Fecha de inicio</label
+            >
+          </span>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="spinner">
+      <button
+        id="footer"
+        pButton
+        pRipple
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="cerrarModificar()"
+      ></button>
+      <button
+        id="footer"
+        pButton
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="actualizar()"
+      ></button>
+    </div>
+  </ng-template>
+</p-dialog>
